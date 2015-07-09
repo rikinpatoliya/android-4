@@ -130,6 +130,8 @@ public class FileDisplayActivity extends HookActivity
 
     public static final String EXTRA_UPLOAD_FROM_WIDGET =
             "com.owncloud.android.ui.activity.UPLOAD_FROM_WIDGET";
+    public static final String EXTRA_NEW_FROM_WIDGET =
+            "com.owncloud.android.ui.activity.NEW_FROM_WIDGET";
 
     public static final String ACTION_DETAILS = "com.owncloud.android.ui.activity.action.DETAILS";
 
@@ -156,6 +158,7 @@ public class FileDisplayActivity extends HookActivity
 
     private SearchView searchView;
     private boolean mUploadFromWidget = false;
+    private boolean mNewFromWidget = false;
 
     
     @Override
@@ -186,6 +189,8 @@ public class FileDisplayActivity extends HookActivity
 
             mUploadFromWidget = getIntent().getBooleanExtra(
                     FileDisplayActivity.EXTRA_UPLOAD_FROM_WIDGET, false);
+            mNewFromWidget = getIntent().getBooleanExtra(
+                    FileDisplayActivity.EXTRA_NEW_FROM_WIDGET, false);
         }        
 
         /// USER INTERFACE
@@ -341,6 +346,11 @@ public class FileDisplayActivity extends HookActivity
             UploadSourceDialogFragment dialog =
                     UploadSourceDialogFragment.newInstance(getAccount());
             dialog.show(getSupportFragmentManager(), DIALOG_UPLOAD_SOURCE);
+        }
+        if (mNewFromWidget) {
+            CreateFolderDialogFragment dialog =
+                    CreateFolderDialogFragment.newInstance(getCurrentDir());
+            dialog.show(getSupportFragmentManager(), DIALOG_CREATE_FOLDER);
         }
 
         Log_OC.v(TAG, "onStart() end");
