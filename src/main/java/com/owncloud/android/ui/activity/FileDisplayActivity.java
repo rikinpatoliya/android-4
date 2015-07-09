@@ -95,6 +95,7 @@ import com.owncloud.android.utils.DataHolderUtil;
 import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.ErrorMessageAdapter;
 import com.owncloud.android.utils.PermissionUtil;
+import com.owncloud.android.widgets.ShortcutsWidget;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -127,6 +128,9 @@ public class FileDisplayActivity extends HookActivity
 
     private static final String SORT_ORDER_DIALOG_TAG = "SORT_ORDER_DIALOG";
 
+    public static final String EXTRA_UPLOAD_FROM_WIDGET =
+            "com.owncloud.android.ui.activity.UPLOAD_FROM_WIDGET";
+
     public static final String ACTION_DETAILS = "com.owncloud.android.ui.activity.action.DETAILS";
 
     public static final int REQUEST_CODE__SELECT_CONTENT_FROM_APPS = REQUEST_CODE__LAST_SHARED + 1;
@@ -151,7 +155,9 @@ public class FileDisplayActivity extends HookActivity
     private String searchQuery;
 
     private SearchView searchView;
+    private boolean mUploadFromWidget = false;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log_OC.v(TAG, "onCreate() start");
@@ -177,7 +183,10 @@ public class FileDisplayActivity extends HookActivity
             mWaitingToPreview = null;
             mSyncInProgress = false;
             mWaitingToSend = null;
-        }
+
+            mUploadFromWidget = getIntent().getBooleanExtra(
+                    FileDisplayActivity.EXTRA_UPLOAD_FROM_WIDGET, false);
+        }        
 
         /// USER INTERFACE
 
@@ -326,6 +335,14 @@ public class FileDisplayActivity extends HookActivity
     protected void onStart() {
         Log_OC.v(TAG, "onStart() start");
         super.onStart();
+
+        // Widget Actions
+        if (mUploadFromWidget) {
+            UploadSourceDialogFragment dialog =
+                    UploadSourceDialogFragment.newInstance(getAccount());
+            dialog.show(getSupportFragmentManager(), DIALOG_UPLOAD_SOURCE);
+        }
+
         Log_OC.v(TAG, "onStart() end");
     }
 
