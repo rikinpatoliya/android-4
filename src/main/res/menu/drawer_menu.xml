@@ -39,6 +39,11 @@
             android:title="@string/drawer_item_uploads_list"/>
         <item
             android:orderInCategory="0"
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_notification"
+            android:title="@string/drawer_item_notifications"/>
+        <item
+            android:orderInCategory="0"
             android:id="@+id/nav_folder_sync"
             android:icon="@drawable/ic_cloud_upload"
             android:title="@string/drawer_folder_sync"/>
